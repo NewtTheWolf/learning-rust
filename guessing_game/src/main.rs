@@ -5,13 +5,6 @@ fn main() {
 
     println!("Bitte gib deine Schätzung ein.");
 
-    let x = "y";
-    let mut y = "x";
-
-    y = 1;
-
-    println!("{y}");
-
     let mut guess = String::new();
 
     io::stdin()
