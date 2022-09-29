@@ -1,15 +1,35 @@
+use rand::Rng;
+use std::cmp::Ordering;
 use std::io;
 
 fn main() {
     println!("Rate die Zahl!");
 
-    println!("Bitte gib deine Schätzung ein.");
+    let secret_number = rand::thread_rng().gen_range(1..=100);
 
-    let mut guess = String::new();
+    loop {
+        println!("Bitte gib deine Schätzung ein.");
 
-    io::stdin()
-        .read_line(&mut guess)
-        .expect("Fehler beim Lesen der Zeile");
+        let mut guess = String::new();
 
-    println!("Du hast geschätzt: {guess}")
+        io::stdin()
+            .read_line(&mut guess)
+            .expect("Fehler beim Lesen der Zeile");
+
+        let guess: u32 = match guess.trim().parse() {
+            Ok(num) => num,
+            Err(_) => continue,
+        };
+
+        println!("Du hast geschätzt: {guess}");
+
+        match guess.cmp(&secret_number) {
+            Ordering::Less => println!("Zu klein!"),
+            Ordering::Greater => println!("Zu gross!"),
+            Ordering::Equal => {
+                println!("Du hast gewonnen!");
+                break;
+            }
+        }
+    }
 }
